@@ -16,6 +16,9 @@ on:
   release:
     types: [published]
 
+env:
+  DIY_SH: diy.sh 
+
 jobs:
 
   build_openwrt:
@@ -52,6 +55,11 @@ jobs:
           sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+
+      - name: Load custom configuration
+        run: |
+          chmod +x $DIY_SH
+          ./$DIY_SH
 
       - name: Generate configuration file
         run: |
